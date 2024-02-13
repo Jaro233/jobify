@@ -42,6 +42,15 @@ app.use("/api/v1/jobs", authenticateUser, jobRouter);
 app.use("/api/v1/users", authenticateUser, userRouter);
 app.use("/api/v1/auth", authRouter);
 
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      "img-src": ["'self'", "https: data:"],
+    },
+  })
+);
+
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
 });
